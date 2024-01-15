@@ -17,19 +17,27 @@ public class Main {
             this.y = n;
         }
     }
-	public static void main(String[] args) {
+    
+	public static void main(String[] args) throws IOException {
 		// TODO Auto-generated method stub
-		Scanner sc = new Scanner(System.in);
+		//Scanner sc = new Scanner(System.in);
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		
 		while(true) {
-			w = sc.nextInt();
-			h = sc.nextInt();
+			String input = br.readLine();
+			StringTokenizer st = new StringTokenizer(input);
+			w = Integer.parseInt(st.nextToken());
+			h = Integer.parseInt(st.nextToken());
 			if(w == h && h == 0)break;
 			int [][] map = new int[h][w];
 			
 			
 			for(int i=0; i<h; i++) {
+				input = br.readLine();
+				st = new StringTokenizer(input);
 				for(int j=0; j<w; j++) {
-					map[i][j] = sc.nextInt();
+					
+					map[i][j] = Integer.parseInt(st.nextToken());
 				}	
 			}
 			int ans=0;
@@ -42,8 +50,8 @@ public class Main {
 				}	
 			}
 			
-			for(int i=0; i<50; i++) {
-				for(int j=0; j<50; j++) {
+			for(int i=0; i<h; i++) {
+				for(int j=0; j<w; j++) {
 					visited[i][j]=false;
 				}	
 			}
