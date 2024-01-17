@@ -1,62 +1,47 @@
-import java.util.*;
-import java.io.*;
-
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.StringTokenizer;
 
 public class Main {
-	static int N;
-	//static boolean[] visited;
-	static int[] visited;
-	static String answer;
-	static ArrayList<ArrayList<Integer>> graph = new ArrayList<ArrayList<Integer>>();
-	
-	public static void main(String[] args) throws IOException {
-		// TODO Auto-generated method stub
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		String input = br.readLine();
-		StringTokenizer st = new StringTokenizer(input);
-		
-		N = Integer.parseInt(st.nextToken());
-		visited = new int[N+1];
-		
-		for(int i=0; i<=N; i++) {
-			graph.add(new ArrayList<Integer>());
-		}
-		
-		
-		for (int i = 1; i < N; i++) {
-			int M = Integer.parseInt(br.readLine());
-			st = new StringTokenizer(br.readLine());
-			
-			
-			for (int j = 0; j < M; j++) {
-				graph.get(i).add(Integer.parseInt(st.nextToken()));
-			}
-		}
-		
-		answer = "NO CYCLE";
-		
-		dfs(1); //1번이 반드시 출발지
-		
-		System.out.println(answer);
-	}
-	static void dfs(int start) {
-		
-		if (visited[start]==-1) {
-			answer = "CYCLE";
-			return;
-		}
-		visited[start] = -1;
-		//System.out.println(start + " ");
-		
-		
-		for(int next : graph.get(start)) {
-			if(visited[next]!=1) {
-				dfs(next);
-			}
-				
-		}
-		visited[start] = 1;
-		
-	}
-
+    private static List<Integer>[] graph;
+    private static boolean[] visited;
+    private static String result = "NO CYCLE";
+    private static boolean isCycle;
+    private static int N;
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        N = Integer.parseInt(br.readLine());
+        graph = new ArrayList[N];
+        StringTokenizer st;
+        isCycle = false;
+        for(int i=0; i<N; i++) {
+            graph[i] = new ArrayList<>();
+        }
+        for(int i=0; i<N-1; i++) {
+            int M = Integer.parseInt(br.readLine());
+            st = new StringTokenizer(br.readLine());
+            for(int j=0; j<M; j++) {
+                graph[i].add(Integer.parseInt(st.nextToken())-1);
+            }
+        }
+        visited = new boolean[N];
+        dfs(0);
+        if(isCycle) result = "CYCLE";
+        System.out.println(result);
+    }
+    private static void dfs(int idx) {
+        if(idx == N-1) return;
+        visited[idx] = true;
+        for(int i=0; i< graph[idx].size(); i++) {
+            if(visited[graph[idx].get(i)]) {
+                isCycle = true;
+                return;
+            }
+            dfs(graph[idx].get(i));
+        }
+        visited[idx] = false;
+    }
 }
